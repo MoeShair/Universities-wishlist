@@ -48,6 +48,19 @@ body {
 #main{
     background-color: #C8C8C8;
     flex: 1;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: 
+    "nav" "list"
+}
+.side-nav{
+    grid-area: nav;
+    background-color: #303030;
+    color: #C8C8C8;
+}
+.list-container{
+    grid-area: list;
 }
 .university{
     background-color: #303030;
