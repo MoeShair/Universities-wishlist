@@ -15,17 +15,20 @@
             <h1 class="h1-style">Universities Whishlist</h1>
             <ul class="nav-items">
                 <li class="active-page"><a href="./index.html">Universities List</a></li>
-                <li><a href="./whishlist.html">Your Whishlist</a></li>
+                <li><a href="#top" id="page2" onclick="tablepage()">Your Whishlist</a></li>
             </ul>
 
         </div>
 
     </header>
-
-    <input type="text" id="my-input"  placeholder="Search for names..">
-    <button id="search-btn">search</button>
+   
+    
     <main id="main">
         <div class="side-nav">
+            <form>
+                <input type="text" id="my-input"  placeholder="Search for names..">
+                <button id="search-btn">search</button>
+            </form>
             <select id="side-filter" onchange="myFunction()">
                 <option>All</option>
                 <option>United Kingdom</option>
