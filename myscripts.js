@@ -112,8 +112,9 @@ function tablepage() {
 
     console.log("memmememeemmememe")
     document.getElementById("main").removeChild(listContainer)
-    //document.getElementById("side-nav").removeChild(document.getElementById("side-filter"))
-    //listContainer.innerHTML =""
+    const sideNav = document.getElementsByClassName('side-nav')[0]
+    document.getElementById("main").removeChild(sideNav);
+    //document.getElementById("side-nav").innerHTML = ""
     document.getElementById("page2").style.color = "red"
     tableContainer = document.createElement("div");
     tableContainer.id = "table-container";
