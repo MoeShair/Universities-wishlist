@@ -13,7 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100px;
+    height: 100%;
     background-color: #303030;
 }
 
@@ -26,6 +26,7 @@ body {
 
 .h1-style {
     color: #C8C8C8;
+    text-align: center;
 }
 
 .nav-items {
@@ -67,6 +68,22 @@ body {
     grid-area: nav;
     background-color: #303030;
     color: #C8C8C8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:start;
+}
+
+#my-input{
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 180px;
+}
+
+#side-filter{
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 180px;
 }
 
 .list-container {
@@ -83,6 +100,7 @@ body {
 
 }
 
+
 table,
 th,
 td {
@@ -96,4 +114,41 @@ td {
     height: 100px;
     background-color: #303030;
     /*margin-top: 1rem;*/
+}
+@media(max-width: 720px){
+    #main {
+        background-color: #C8C8C8;
+        flex: 1;
+        gap: 0;
+        display: flex;
+        flex-direction: column;
+    }
+    #list-container{
+        margin: 1rem;
+    }
+    .university a{
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+
+    }
+    .university {
+        box-sizing: border-box;
+        background-color: #303030;
+        color: #C8C8C8;
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+        align-items: normal;    
+    }
+    .x-container {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+    .nav-items li {
+        display: block;
+        padding: 1px;
+        align-items: center;
+        text-align: center;
+    }
 }

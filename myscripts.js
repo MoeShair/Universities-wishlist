@@ -42,15 +42,33 @@ function buildHTML() {
     sideNav.className = "side-nav";
 
     const form = document.createElement("form");
+    form.id= "myform"
     form.autocomplete = "off";
 
     const input = document.createElement("input");
-    input.type = "text";
+    input.type = "search";
     input.id = "my-input";
     input.placeholder = "Search for names..";
+    
+/*
+    const dataList = document.createElement("datalist");
+    dataList.id = "autocomplete-options";
+
+    let autoCompleteOptions = ["Option1", "Option2", "Option3"]; // Add your autocomplete options here
+
+    autoCompleteOptions.forEach((optionText) => {
+        const option = document.createElement("option");
+        option.textContent = optionText;
+        dataList.appendChild(option);
+    });
+
+*/
+    // Append the datalist to the form
+    //form.appendChild(dataList);
 
     const button = document.createElement("button");
     button.id = "search-btn";
+    button.onclick = findUni;
     button.textContent = "search";
 
     form.appendChild(input);
@@ -87,9 +105,11 @@ function buildHTML() {
     root.appendChild(footer);
 }
 
+let autoCompleteArray = []
+
 buildHTML()
 
-let URL = "http://universities.hipolabs.com/search?name=a"
+let URL = "http://universities.hipolabs.com/search?country=germany"
 
 const listContainer = document.getElementById('list-container')
 
@@ -108,7 +128,7 @@ let response = fetch(URL)
 
 .then(data => console.log(data))
 .catch(error => console.log("error"))*/
-
+//let abortController = new AbortController();
 function fillingHtml() {
     universities().then((re) => {
         /*console.log(typeof (re))
@@ -123,14 +143,23 @@ function fillingHtml() {
                      </div>`
         }
         listContainer.innerHTML = univ*/
+        /*------------------------------------------------------------------------------------*/
+        const dataList = document.createElement("datalist");
+        dataList.id = "autocomplete-options";
+    
+        let input = document.getElementById("my-input")
+        /*------------------------------------------------------------------------------------*/
+
 
         const listContainer = document.getElementById("list-container")
+        autoCompleteOptions = []
         for (let i = 0; i < re.length; i++) {
             const universityDiv = document.createElement("div")
             universityDiv.classList.add("university")
 
             const nameParagraph = document.createElement("p")
             nameParagraph.textContent = JSON.stringify(re[i]["name"])
+            autoCompleteOptions.push(JSON.stringify(re[i]["name"]))
             universityDiv.appendChild(nameParagraph)
 
             const webPagesLink = document.createElement("a")
@@ -164,35 +193,54 @@ function fillingHtml() {
 
             listContainer.appendChild(universityDiv)
         }
+        autoCompleteOptions.forEach((optionText) => {
+            const option = document.createElement("option");
+            option.textContent = optionText;
+            dataList.appendChild(option);
+            input.setAttribute("list", "autocomplete-options");
+            let form = document.getElementById("myform")
+            form.appendChild(dataList);
+            
+        });
 
     })
 }
 fillingHtml()
 
+
+
+
 async function universities() {
-    const response = await fetch(URL)
+    // const controller = new AbortController()
+
+    // // 5 second timeout:
+
+    // const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+    const response = await fetch(URL, { signal: AbortSignal.timeout(2000) })
     const unis = await response.json()
 
     return unis;
 }
-document.addEventListener('DOMContentLoaded', function () {
+/*const timeoutInMilliseconds = 3000;
+setTimeout(() => {
+    abortController.abort();
+}, timeoutInMilliseconds);*/
 
-    let searchBtn = document.getElementById("search-btn")
-    console.log(searchBtn)
+function findUni() {
+    console.log("U are in the function")
+    let searchInput = document.getElementById("my-input").value
+    console.log(searchInput)
+    URL = `http://universities.hipolabs.com/search?name=${searchInput}`
+    listContainer.innerHTML = ""
+    fillingHtml()
+    event.preventDefault()
+}
 
 
-    searchBtn.addEventListener("click", function () {
-        let searchInput = document.getElementById("my-input").value
-        console.log("U are in the function")
-        URL = `http://universities.hipolabs.com/search?name=${searchInput}`
-        listContainer.innerHTML = ""
-        fillingHtml()
-    })
 
-
-});
 function myFunction() {
-    console.log("Yooo")
+    console.log("Yoooo")
     let x = document.getElementById("side-filter").value
     URL = `http://universities.hipolabs.com/search?country=${x}`
     listContainer.innerHTML = ""
