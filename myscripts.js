@@ -3,119 +3,120 @@
 let controller = new AbortController();
 let signal = controller.signal;
 
+class Header{
+    buildHeader(){
+        const header = document.createElement("header")
+        header.className = "header"
+    
+        const headerContainer = document.createElement("div")
+        headerContainer.className = "x-container"
+    
+        const h1 = document.createElement("h1")
+        h1.className = "h1-style"
+        h1.textContent = "Universities Whishlist"
+    
+        const ul = document.createElement("ul")
+        ul.className = "nav-items"
+    
+        const li1 = document.createElement("li")
+        li1.className = "active-page"
+        const a1 = document.createElement("a")
+        a1.href = "./index.html"
+        a1.textContent = "Universities List"
+        li1.appendChild(a1)
+    
+        const li2 = document.createElement("li")
+        const a2 = document.createElement("a")
+        a2.href = "#top"
+        a2.id = "page2"
+        a2.textContent = "Your Whishlist"
+        a2.onclick = tablepage
+        li2.appendChild(a2)
+    
+        ul.appendChild(li1)
+        ul.appendChild(li2)
+    
+        headerContainer.appendChild(h1)
+        headerContainer.appendChild(ul)
+    
+        header.appendChild(headerContainer)
+        root.appendChild(header)
+    }
+}
+
+class SideNav{
+    buildSideNav(){
+        const main = document.createElement("main")
+        main.id = "main"
+    
+        const sideNav = document.createElement("div")
+        sideNav.className = "side-nav"
+    
+        const formContainer = document.createElement("div")
+        formContainer.className = "x-container"
+    
+        const form = document.createElement("form")
+        form.id= "myform"
+        form.autocomplete = "off"
+    
+        const input = document.createElement("input")
+        input.type = "search"
+        input.id = "my-input"
+        input.addEventListener("input", function() {
+            autocomp(this.value);
+        });
+        
+        input.placeholder = "Search for names.."
+        
+    
+        const button = document.createElement("button")
+        button.id = "search-btn"
+        button.onclick = findUni
+        button.textContent = "search"
+    
+        form.appendChild(input)
+        form.appendChild(button)
+    
+        const select = document.createElement("select")
+        select.id = "side-filter"
+        select.onchange = myFunction
+    
+        const options = ["All", "United Kingdom", "United States", "Canada", "Germany"]
+        options.forEach((optionText) => {
+            const option = document.createElement("option")
+            option.textContent = optionText
+            select.appendChild(option)
+        });
+    
+        formContainer.appendChild(form)
+        formContainer.appendChild(select)
+        sideNav.appendChild(formContainer)
+    
+        main.appendChild(sideNav)
+    
+        const listContainer = document.createElement("div")
+        listContainer.id = "list-container"
+    
+        main.appendChild(listContainer)
+    
+        const footer = document.createElement("footer")
+        footer.className = "footer"
+    
+        // Append all elements to the body
+        let root = document.getElementById("root")
+        
+        root.appendChild(main)
+        root.appendChild(footer)
+    }
+}
+
 function buildHTML() {
-    const header = document.createElement("header")
-    header.className = "header"
+    const pageHeader = new Header()
+    pageHeader.buildHeader()
+   
+    const pageSideNav = new SideNav()
+    pageSideNav.buildSideNav()
 
-    const headerContainer = document.createElement("div")
-    headerContainer.className = "x-container"
-
-    const h1 = document.createElement("h1")
-    h1.className = "h1-style"
-    h1.textContent = "Universities Whishlist"
-
-    const ul = document.createElement("ul")
-    ul.className = "nav-items"
-
-    const li1 = document.createElement("li")
-    li1.className = "active-page"
-    const a1 = document.createElement("a")
-    a1.href = "./index.html"
-    a1.textContent = "Universities List"
-    li1.appendChild(a1)
-
-    const li2 = document.createElement("li")
-    const a2 = document.createElement("a")
-    a2.href = "#top"
-    a2.id = "page2"
-    a2.textContent = "Your Whishlist"
-    a2.onclick = tablepage
-    li2.appendChild(a2)
-
-    ul.appendChild(li1)
-    ul.appendChild(li2)
-
-    headerContainer.appendChild(h1)
-    headerContainer.appendChild(ul)
-
-    header.appendChild(headerContainer)
-
-    const main = document.createElement("main")
-    main.id = "main"
-
-    const sideNav = document.createElement("div")
-    sideNav.className = "side-nav"
-
-    const formContainer = document.createElement("div")
-    formContainer.className = "x-container"
-
-    const form = document.createElement("form")
-    form.id= "myform"
-    form.autocomplete = "off"
-
-    const input = document.createElement("input")
-    input.type = "search"
-    input.id = "my-input"
-    input.addEventListener("input", function() {
-        autocomp(this.value);
-    });
-    
-    input.placeholder = "Search for names.."
-    
-/*
-    const dataList = document.createElement("datalist");
-    dataList.id = "autocomplete-options";
-
-    let autoCompleteOptions = ["Option1", "Option2", "Option3"]; // Add your autocomplete options here
-
-    autoCompleteOptions.forEach((optionText) => {
-        const option = document.createElement("option");
-        option.textContent = optionText;
-        dataList.appendChild(option);
-    });
-
-*/
-    // Append the datalist to the form
-    //form.appendChild(dataList);
-
-    const button = document.createElement("button")
-    button.id = "search-btn"
-    button.onclick = findUni
-    button.textContent = "search"
-
-    form.appendChild(input)
-    form.appendChild(button)
-
-    const select = document.createElement("select")
-    select.id = "side-filter"
-    select.onchange = myFunction
-
-    const options = ["All", "United Kingdom", "United States", "Canada", "Germany"]
-    options.forEach((optionText) => {
-        const option = document.createElement("option")
-        option.textContent = optionText
-        select.appendChild(option)
-    });
-
-    formContainer.appendChild(form)
-    formContainer.appendChild(select)
-    sideNav.appendChild(formContainer)
-
-    main.appendChild(sideNav)
-
-    const listContainer = document.createElement("div")
-    listContainer.id = "list-container"
-
-    main.appendChild(listContainer)
-
-    const footer = document.createElement("footer")
-    footer.className = "footer"
-
-    // Append all elements to the body
-    let root = document.getElementById("root")
-    root.appendChild(header)
-    root.appendChild(main)
-    root.appendChild(footer)
 }
 
 let autoCompleteArray = []
