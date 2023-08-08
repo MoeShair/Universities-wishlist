@@ -1,54 +1,66 @@
+
+
+let controller = new AbortController();
+let signal = controller.signal;
+
 function buildHTML() {
-    const header = document.createElement("header");
-    header.className = "header";
+    const header = document.createElement("header")
+    header.className = "header"
 
-    const headerContainer = document.createElement("div");
-    headerContainer.className = "x-container";
+    const headerContainer = document.createElement("div")
+    headerContainer.className = "x-container"
 
-    const h1 = document.createElement("h1");
-    h1.className = "h1-style";
-    h1.textContent = "Universities Whishlist";
+    const h1 = document.createElement("h1")
+    h1.className = "h1-style"
+    h1.textContent = "Universities Whishlist"
 
-    const ul = document.createElement("ul");
-    ul.className = "nav-items";
+    const ul = document.createElement("ul")
+    ul.className = "nav-items"
 
-    const li1 = document.createElement("li");
-    li1.className = "active-page";
-    const a1 = document.createElement("a");
-    a1.href = "./index.html";
-    a1.textContent = "Universities List";
-    li1.appendChild(a1);
+    const li1 = document.createElement("li")
+    li1.className = "active-page"
+    const a1 = document.createElement("a")
+    a1.href = "./index.html"
+    a1.textContent = "Universities List"
+    li1.appendChild(a1)
 
-    const li2 = document.createElement("li");
-    const a2 = document.createElement("a");
-    a2.href = "#top";
-    a2.id = "page2";
-    a2.textContent = "Your Whishlist";
-    a2.onclick = tablepage; // Assuming tablepage is a valid function defined elsewhere
-    li2.appendChild(a2);
+    const li2 = document.createElement("li")
+    const a2 = document.createElement("a")
+    a2.href = "#top"
+    a2.id = "page2"
+    a2.textContent = "Your Whishlist"
+    a2.onclick = tablepage
+    li2.appendChild(a2)
 
-    ul.appendChild(li1);
-    ul.appendChild(li2);
+    ul.appendChild(li1)
+    ul.appendChild(li2)
 
-    headerContainer.appendChild(h1);
-    headerContainer.appendChild(ul);
+    headerContainer.appendChild(h1)
+    headerContainer.appendChild(ul)
 
-    header.appendChild(headerContainer);
+    header.appendChild(headerContainer)
 
-    const main = document.createElement("main");
-    main.id = "main";
+    const main = document.createElement("main")
+    main.id = "main"
 
-    const sideNav = document.createElement("div");
-    sideNav.className = "side-nav";
+    const sideNav = document.createElement("div")
+    sideNav.className = "side-nav"
 
-    const form = document.createElement("form");
+    const formContainer = document.createElement("div")
+    formContainer.className = "x-container"
+
+    const form = document.createElement("form")
     form.id= "myform"
-    form.autocomplete = "off";
+    form.autocomplete = "off"
 
-    const input = document.createElement("input");
-    input.type = "search";
-    input.id = "my-input";
-    input.placeholder = "Search for names..";
+    const input = document.createElement("input")
+    input.type = "search"
+    input.id = "my-input"
+    input.addEventListener("input", function() {
+        autocomp(this.value);
+    });
+    
+    input.placeholder = "Search for names.."
     
 /*
     const dataList = document.createElement("datalist");
@@ -66,60 +78,61 @@ function buildHTML() {
     // Append the datalist to the form
     //form.appendChild(dataList);
 
-    const button = document.createElement("button");
-    button.id = "search-btn";
-    button.onclick = findUni;
-    button.textContent = "search";
+    const button = document.createElement("button")
+    button.id = "search-btn"
+    button.onclick = findUni
+    button.textContent = "search"
 
-    form.appendChild(input);
-    form.appendChild(button);
+    form.appendChild(input)
+    form.appendChild(button)
 
-    const select = document.createElement("select");
-    select.id = "side-filter";
-    select.onchange = myFunction; // Assuming myFunction is a valid function defined elsewhere
+    const select = document.createElement("select")
+    select.id = "side-filter"
+    select.onchange = myFunction
 
-    const options = ["All", "United Kingdom", "United States", "Canada", "Germany"];
+    const options = ["All", "United Kingdom", "United States", "Canada", "Germany"]
     options.forEach((optionText) => {
-        const option = document.createElement("option");
-        option.textContent = optionText;
-        select.appendChild(option);
+        const option = document.createElement("option")
+        option.textContent = optionText
+        select.appendChild(option)
     });
 
-    sideNav.appendChild(form);
-    sideNav.appendChild(select);
+    formContainer.appendChild(form)
+    formContainer.appendChild(select)
+    sideNav.appendChild(formContainer)
 
-    main.appendChild(sideNav);
+    main.appendChild(sideNav)
 
-    const listContainer = document.createElement("div");
-    listContainer.id = "list-container";
+    const listContainer = document.createElement("div")
+    listContainer.id = "list-container"
 
-    main.appendChild(listContainer);
+    main.appendChild(listContainer)
 
-    const footer = document.createElement("footer");
-    footer.className = "footer";
+    const footer = document.createElement("footer")
+    footer.className = "footer"
 
     // Append all elements to the body
     let root = document.getElementById("root")
-    root.appendChild(header);
-    root.appendChild(main);
-    root.appendChild(footer);
+    root.appendChild(header)
+    root.appendChild(main)
+    root.appendChild(footer)
 }
 
 let autoCompleteArray = []
 
 buildHTML()
 
-let URL = "http://universities.hipolabs.com/search?country=germany"
+let URL = "http://universities.hipolabs.com/search"
 
 const listContainer = document.getElementById('list-container')
 
 let whishSet = ''
 
 if (localStorage != null) {
-    whishSet = new Set(JSON.parse(localStorage.getItem("whishSet")));
+    whishSet = new Set(JSON.parse(localStorage.getItem("whishSet")))
 }
 else {
-    whishSet = new Set();
+    whishSet = new Set()
 }
 
 /*
@@ -129,8 +142,8 @@ let response = fetch(URL)
 .then(data => console.log(data))
 .catch(error => console.log("error"))*/
 //let abortController = new AbortController();
-function fillingHtml() {
-    universities().then((re) => {
+function fillingHtml(URL) {
+    universities(URL).then((re) => {
         /*console.log(typeof (re))
         console.log(re)
         let univ = ""*/
@@ -159,7 +172,7 @@ function fillingHtml() {
 
             const nameParagraph = document.createElement("p")
             nameParagraph.textContent = JSON.stringify(re[i]["name"])
-            autoCompleteOptions.push(JSON.stringify(re[i]["name"]))
+            autoCompleteOptions.push(re[i]["name"])
             universityDiv.appendChild(nameParagraph)
 
             const webPagesLink = document.createElement("a")
@@ -188,10 +201,13 @@ function fillingHtml() {
 
             })
 
-
+            
+            
             universityDiv.appendChild(addItemButton)
 
             listContainer.appendChild(universityDiv)
+           
+            
         }
         autoCompleteOptions.forEach((optionText) => {
             const option = document.createElement("option");
@@ -205,19 +221,16 @@ function fillingHtml() {
 
     })
 }
-fillingHtml()
+fillingHtml(URL)
 
 
 
+async function universities(URL) {
 
-async function universities() {
-    // const controller = new AbortController()
-
-    // // 5 second timeout:
-
-    // const timeoutId = setTimeout(() => controller.abort(), 5000)
-
-    const response = await fetch(URL, { signal: AbortSignal.timeout(2000) })
+    controller.abort();
+    controller = new AbortController();
+    signal = controller.signal;
+    const response = await fetch(URL, { signal: signal })
     const unis = await response.json()
 
     return unis;
@@ -233,7 +246,7 @@ function findUni() {
     console.log(searchInput)
     URL = `http://universities.hipolabs.com/search?name=${searchInput}`
     listContainer.innerHTML = ""
-    fillingHtml()
+    fillingHtml(URL)
     event.preventDefault()
 }
 
@@ -244,7 +257,7 @@ function myFunction() {
     let x = document.getElementById("side-filter").value
     URL = `http://universities.hipolabs.com/search?country=${x}`
     listContainer.innerHTML = ""
-    fillingHtml()
+    fillingHtml(URL)
 }
 
 function tablepage() {
@@ -281,7 +294,7 @@ function tablepage() {
     tablee.appendChild(headerRow)
 
     tableContainer.appendChild(tablee)
-    document.getElementById("main").appendChild(tableContainer);
+    document.getElementById("main").appendChild(tableContainer)
 
     let tableItems = JSON.parse(localStorage.getItem("whishSet"))
     for (let i = 0; i < tableItems.length; i++) {
@@ -322,4 +335,10 @@ function tablepage() {
             Checked.textContent = "checked 😊"
         })
     }
+}
+function autocomp(value){
+    console.log(value)
+    urllloo = `http://universities.hipolabs.com/search?name=${value}`
+    listContainer.innerHTML = ""
+    fillingHtml(urllloo)
 }
