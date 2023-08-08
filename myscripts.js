@@ -1,5 +1,8 @@
 let controller = new AbortController();
 let signal = controller.signal;
+let URL = "http://universities.hipolabs.com/search"
+let listContainer;
+
 
 let whishSet = ''
 
@@ -8,6 +11,19 @@ if (localStorage != null) {
 }
 else {
     whishSet = new Set()
+}
+
+class ListContainer {
+    buildListContainer() {
+        const listContainer = document.createElement("div")
+        listContainer.id = "list-container"
+
+        main.appendChild(listContainer)
+    }
+
+    clear() {
+        this.innerHTML = ""
+    }
 }
 
 class Header {
@@ -165,18 +181,7 @@ class Card {
     }
 }
 
-class ListContainer {
-    buildListContainer() {
-        const listContainer = document.createElement("div")
-        listContainer.id = "list-container"
 
-        main.appendChild(listContainer)
-    }
-
-    clear() {
-        this.innerHTML = ""
-    }
-}
 
 class Page2 {
     buildPage2() {
@@ -262,8 +267,12 @@ function buildHTML() {
     const pageSideNav = new SideNav()
     pageSideNav.buildSideNav()
 
-    const listContainer = new ListContainer()
-    listContainer.buildListContainer()
+    const x = new ListContainer()
+    x.buildListContainer();
+    listContainer = document.getElementById('list-container')
+
+
+    fillingHtml(URL)
 
 }
 
@@ -271,9 +280,7 @@ let autoCompleteArray = []
 
 buildHTML()
 
-let URL = "http://universities.hipolabs.com/search"
 
-const listContainer = document.getElementById('list-container')
 
 
 function fillingHtml(URL) {
@@ -292,24 +299,26 @@ function fillingHtml(URL) {
         for (let i = 0; i < re.length; i++) {
 
             let card = new Card(re[i]["name"], re[i]["web_pages"], re[i]["country"], re[i]["alpha_two_code"])
-            card.buildCard()
+            setTimeout(()=>{
+                card.buildCard()
+            }, 10 * i)
+           
 
-            autoCompleteOptions.push(re[i]["name"])
+            // autoCompleteOptions.push(re[i]["name"])
 
         }
-        autoCompleteOptions.forEach((optionText) => {
-            const option = document.createElement("option");
-            option.textContent = optionText;
-            dataList.appendChild(option);
-            input.setAttribute("list", "autocomplete-options");
-            let form = document.getElementById("myform")
-            form.appendChild(dataList);
+        // autoCompleteOptions.forEach((optionText) => {
+        //     const option = document.createElement("option");
+        //     option.textContent = optionText;
+        //     dataList.appendChild(option);
+        //     input.setAttribute("list", "autocomplete-options");
+        //     let form = document.getElementById("myform")
+        //     form.appendChild(dataList);
 
-        });
+        // });
 
     })
 }
-fillingHtml(URL)
 
 
 
@@ -350,78 +359,6 @@ function tablepage() {
     console.log("memmememeemmememe")
     page = new Page2()
     page.buildPage2()
-    // document.getElementById("main").removeChild(listContainer)
-    // const sideNav = document.getElementsByClassName('side-nav')[0]
-    // document.getElementById("main").removeChild(sideNav);
-    // //document.getElementById("side-nav").innerHTML = ""
-    // document.getElementById("page2").style.color = "red"
-    // tableContainer = document.createElement("div");
-    // tableContainer.id = "table-container";
-
-    // const tablee = document.createElement("table")
-
-    // const headerRow = document.createElement("tr")
-
-    // const tableheader = document.createElement("th")
-    // tableheader.textContent = "Name"
-    // headerRow.appendChild(tableheader)
-
-    // const tableheader1 = document.createElement("th")
-    // tableheader1.textContent = "Country"
-    // headerRow.appendChild(tableheader1)
-
-    // const tableheader2 = document.createElement("th")
-    // tableheader2.textContent = "Checked"
-    // headerRow.appendChild(tableheader2)
-
-    // const tableheader3 = document.createElement("th")
-    // tableheader3.textContent = "Remove"
-    // headerRow.appendChild(tableheader3)
-
-    // tablee.appendChild(headerRow)
-
-    // tableContainer.appendChild(tablee)
-    // document.getElementById("main").appendChild(tableContainer)
-
-    // let tableItems = JSON.parse(localStorage.getItem("whishSet"))
-    // for (let i = 0; i < tableItems.length; i++) {
-    //     console.log("yoo")
-    //     let tableRow = document.createElement("tr")
-
-    //     let td = document.createElement("td")
-    //     td.textContent = tableItems[i]['name']
-    //     tableRow.appendChild(td)
-
-    //     let td1 = document.createElement("td")
-    //     td1.textContent = tableItems[i]['country']
-    //     tableRow.appendChild(td1)
-
-    //     let td2 = document.createElement("td")
-    //     let Checked = document.createElement("button")
-    //     Checked.textContent = "check"
-    //     td2.appendChild(Checked)
-    //     tableRow.appendChild(td2)
-
-    //     let td3 = document.createElement("td")
-    //     let remove = document.createElement("button")
-    //     remove.textContent = "remove"
-    //     td3.appendChild(remove)
-    //     tableRow.appendChild(td3)
-
-
-    //     tablee.appendChild(tableRow)
-
-    //     remove.addEventListener("click", () => {
-    //         tablee.removeChild(tableRow)
-    //         tableItems.splice(i, 1)
-    //         localStorage.setItem("whishSet", JSON.stringify(tableItems))
-    //     })
-    //     Checked.addEventListener("click", () => {
-    //         tableRow.style.backgroundColor = "green"
-    //         Checked.disabled = "true"
-    //         Checked.textContent = "checked 😊"
-    //     })
-    // }
 }
 function autocomp(value) {
     console.log(value)
